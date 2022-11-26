@@ -6,12 +6,12 @@ def _main():
     """
     Import data from http://download.geonames.org/export/dump/ allCountries list
     """
-    query = "INSERT INTO \"public\".\"_CITIES\" (\"name\", \"lat\", \"long\", \"region\") " \
+    query = "INSERT INTO \"public\".\"cities\" (\"name\", \"lat\", \"lng\", \"region\") " \
             "VALUES (%s, %s, %s, %s)"
 
-    conn = connect(host='localhost', user=DB_USER, password=DB_PASS, database='geotest')
+    conn = connect(host='localhost', user='postgres', password='postgres', database='geotest')
 
-    with open("allCountries.txt") as in_f:
+    with open("allCountries.txt", encoding='utf-8') as in_f:
         with conn.cursor() as cursor:
             csv_reader = reader(in_f, delimiter='\t')
             for num, line in enumerate(csv_reader):

@@ -1,5 +1,24 @@
 -- Data taken from http://download.geonames.org/export/dump/
--- Measure
+
+-- Create all associated tables and indexes
+
+CREATE TABLE cities (
+    id integer DEFAULT nextval('public.cities_seq'::regclass) NOT NULL,
+    name character varying NOT NULL,
+    region character varying NOT NULL,
+    lat double precision NOT NULL,
+    lng double precision NOT NULL
+);
+
+ALTER TABLE ONLY cities
+    ADD CONSTRAINT cities_pkey PRIMARY KEY (id);
+
+CREATE INDEX cities_name_low_idx ON cities USING btree
+(lower((name)::text));
+
+CREATE INDEX cities_location_idx ON cities USING gist (ll_to_earth(lat, lng));
+
+-- Measure the size of data and associated index in the table
 SELECT COUNT(*), pg_size_pretty(pg_relation_size('cities')) AS data, pg_size_pretty(pg_indexes_size('cities')) AS idxs
 FROM cities;
 
