@@ -1,5 +1,8 @@
 -- Data taken from http://download.geonames.org/export/dump/
 
+-- Install the earthdistance extension to use 3d calculations of distance on the earth's surface
+CREATE EXTENSION earthdistance CASCADE;
+
 -- Create all associated tables and indexes
 
 CREATE TABLE cities (
